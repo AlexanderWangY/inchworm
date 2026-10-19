@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Inchworm",
+  "version": "0.1.0",
+  "description": "Read PDFs line by line with vim keys (j/k) and bookmark your place in Zotero's reader.",
+  "author": "alexawang",
+  "homepage_url": "https://github.com/AlexanderWangY/inchworm",
+  "icons": {
+    "48": "content/icons/inchworm.svg",
+    "96": "content/icons/inchworm.svg"
+  },
+  "applications": {
+    "zotero": {
+      "id": "inchworm@alexawang",
+      "update_url": "https://github.com/AlexanderWangY/inchworm/releases/latest/download/updates.json",
+      "strict_min_version": "7.0",
+      "strict_max_version": "10.0.*"
+    }
+  }
+}

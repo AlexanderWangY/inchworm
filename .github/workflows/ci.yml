@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Check syntax
+        run: for f in bootstrap.js prefs.js src/*.js; do node --check "$f"; done
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: ./scripts/build.sh
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: inchworm-xpi
+          path: build/*.xpi
+          if-no-files-found: error

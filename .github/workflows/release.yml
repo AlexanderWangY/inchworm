@@ -1,0 +1,52 @@
+name: Release
+
+# Push a tag like v0.2.0 (matching "version" in manifest.json) to publish a release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Check the tag matches manifest.json
+        run: |
+          version=$(node -p "require('./manifest.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match manifest.json version $version"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: ./scripts/build.sh
+
+      - name: Write update manifest
+        run: node scripts/update-manifest.mjs "build/inchworm-$VERSION.xpi" build/updates.json
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Tags like v0.2.0-beta.1 become pre-releases. Zotero's update check
+          # reads the latest full release, so pre-releases don't auto-update anyone.
+          prerelease=""
+          case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" \
+            "build/inchworm-$VERSION.xpi" build/updates.json \
+            --title "Inchworm $VERSION" \
+            --generate-notes \
+            --verify-tag \
+            $prerelease

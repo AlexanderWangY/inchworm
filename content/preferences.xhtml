@@ -1,0 +1,46 @@
+<vbox id="inchworm-prefs">
+	<groupbox>
+		<label><html:h2>Inchworm</html:h2></label>
+		<description>
+			In a PDF, press j / k to move a line cursor down and up, m + letter to bookmark the line,
+			and ' + letter to jump back to it. Press ? in the reader to see every key.
+		</description>
+
+		<hbox align="center">
+			<label value="Line style:" control="inchworm-style"/>
+			<menulist id="inchworm-style" preference="extensions.inchworm.style" native="true">
+				<menupopup>
+					<menuitem label="Highlight" value="highlight"/>
+					<menuitem label="Underline" value="underline"/>
+					<menuitem label="Highlight + underline" value="both"/>
+					<menuitem label="Focus (dim everything else)" value="focus"/>
+				</menupopup>
+			</menulist>
+		</hbox>
+
+		<hbox align="center">
+			<label value="Color:" control="inchworm-color"/>
+			<html:input type="color" id="inchworm-color" preference="extensions.inchworm.color"/>
+		</hbox>
+
+		<hbox align="center">
+			<label value="While moving, keep the line:" control="inchworm-scrolloff"/>
+			<menulist id="inchworm-scrolloff" preference="extensions.inchworm.scrolloff" native="true">
+				<menupopup>
+					<menuitem label="anywhere (scroll only at the edges)" value="5"/>
+					<menuitem label="away from the top and bottom" value="25"/>
+					<menuitem label="centered" value="50"/>
+				</menupopup>
+			</menulist>
+		</hbox>
+
+		<checkbox id="inchworm-skip-margins" preference="extensions.inchworm.skipMargins"
+			label="Skip running headers, footers and page numbers"/>
+		<checkbox id="inchworm-click" preference="extensions.inchworm.clickToMove"
+			label="Clicking text moves the line cursor (while it's showing)"/>
+
+		<description style="opacity: 0.7; margin-top: 8px;">
+			Bookmarks are saved in your Zotero data directory (inchworm/marks.json) and aren't synced.
+		</description>
+	</groupbox>
+</vbox>

@@ -1,0 +1,10 @@
+{
+  "name": "inchworm",
+  "private": true,
+  "description": "Vim-style line-by-line reading and bookmarks for Zotero's PDF reader",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build": "./scripts/build.sh",
+    "e2e": "python3 test/e2e/run_e2e.py"
+  }
+}
